@@ -6,7 +6,7 @@
 /*   By: mvalk <mvalk@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:09:07 by mvalk         #+#    #+#                 */
-/*   Updated: 2023/04/19 14:13:18 by mvalk         ########   odam.nl         */
+/*   Updated: 2023/04/20 13:33:36 by mvalk         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,40 @@ int	check_input_type(char **input)
 		i++;
 	}
 	return (0);
+}
+
+void	free_input(char **input)
+{
+	int	input_len;
+
+	input_len = 0;
+	while (input[input_len])
+	{
+		free (input[input_len]);
+		input_len++;
+	}
+	free(input);
+}
+
+int	is_sorted(t_stack **a)
+{
+	t_stack	*index;
+	int		size;
+
+	index = *a;
+	size = 0;
+	while (index)
+	{
+		if (index->next)
+		{
+			if (index->data > index->next->data)
+				return (0);
+		}
+		index = index->next;
+		size++;
+	}
+	if (size == ft_stack_size(*a))
+		return (1);
+	else
+		return (0);
 }

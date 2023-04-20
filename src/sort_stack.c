@@ -1,39 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   sort_100.c                                         :+:    :+:            */
+/*   sort_stack.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mvalk <mvalk@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/26 13:48:51 by mvalk         #+#    #+#                 */
-/*   Updated: 2023/04/19 11:45:47 by mvalk         ########   odam.nl         */
+/*   Created: 2023/02/03 14:39:07 by mvalk         #+#    #+#                 */
+/*   Updated: 2023/04/20 12:55:20 by mvalk         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/push_swap.h"
 
-int	calculate_pivot_100(int live_stack_size, int stack_size)
+void	num_push(int pivot_num, int prev_pivot, t_stack **a, t_stack **b)
 {
-	int	pivot_num;
-
-	if (live_stack_size >= (stack_size * 0.75))
-		pivot_num = (stack_size / 4) + 1;
-	else if (live_stack_size >= stack_size / 2)
-		pivot_num = (stack_size / 2) + 1;
-	else
-		pivot_num = (stack_size * 0.75) + 1;
-	return (pivot_num);
+	if ((*b)->true_index > prev_pivot + ((pivot_num - prev_pivot) / 2))
+	{
+		if ((*a)->true_index > pivot_num)
+			ft_rr(a, b);
+		else
+			ft_rb(b);
+	}
 }
 
-void	sort_100(t_stack **a, t_stack **b, int stack_size)
+int	new_pivot(int live_stack_size, int stack_size, double factor)
+{
+	int	pivot;
+
+	pivot = live_stack_size * factor;
+	pivot = stack_size - pivot;
+	return (pivot);
+}
+
+void	sort_stack(t_stack **a, t_stack **b, int stack_size, double factor)
 {
 	int		pivot_num;
 	int		live_stack_size;
+	int		prev_pivot;
 
+	prev_pivot = 0;
 	live_stack_size = stack_size;
-	while (live_stack_size >= stack_size / 4)
+	while (live_stack_size >= stack_size / 10)
 	{
-		pivot_num = calculate_pivot_100(live_stack_size, stack_size);
+		pivot_num = new_pivot(live_stack_size, stack_size, factor);
 		while (live_stack_size >= stack_size - pivot_num)
 		{
 			if ((*a)->true_index <= pivot_num)
@@ -42,12 +51,12 @@ void	sort_100(t_stack **a, t_stack **b, int stack_size)
 				ft_pb(a, b);
 				live_stack_size--;
 				if ((*b) && (*b)->next)
-					if ((*b)->true_index > pivot_num - (stack_size / 8))
-						ft_rb(b);
+					num_push(pivot_num, prev_pivot, a, b);
 			}
 			else
 				ft_ra(a);
 		}
+		prev_pivot = pivot_num;
 	}
-	sort_20(a, b);
+	sort_small(a, b, ft_stack_size(*a));
 }
