@@ -6,7 +6,7 @@
 /*   By: mvalk <mvalk@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/03 14:39:07 by mvalk         #+#    #+#                 */
-/*   Updated: 2023/04/20 12:55:20 by mvalk         ########   odam.nl         */
+/*   Updated: 2023/04/24 15:47:05 by mvalk         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	sort_stack(t_stack **a, t_stack **b, int stack_size, double factor)
 
 	prev_pivot = 0;
 	live_stack_size = stack_size;
-	while (live_stack_size >= stack_size / 10)
+	while (live_stack_size >= 20)
 	{
 		pivot_num = new_pivot(live_stack_size, stack_size, factor);
 		while (live_stack_size >= stack_size - pivot_num)
